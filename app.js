@@ -5,6 +5,7 @@ const app = express();
 const port = 3000;
 const pageRoute = require('./routes/pageRoute');
 const courseRoute = require('./routes/courseRoute');
+const categoryRoute = require('./routes/categoryRoute');
 //Db bağlantısı
 moongose.connect('mongodb://127.0.0.1:27017/smartedu-db');
 
@@ -20,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-
 
 app.use('/', pageRoute);
 app.use('/courses', courseRoute);
+app.use('/category',categoryRoute);
 
 app.listen(port, () => {
   console.log(`Server ${port} üzerinde başlatıldı`);
