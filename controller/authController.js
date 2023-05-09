@@ -4,9 +4,9 @@ const bcrypt = require('bcrypt');
 exports.addUser = async (req, res) => {
   try {
     const user = await User.create(req.body);
-    res.status(201).render('index',{
+    res.status(201).render('index', {
       status: 'success',
-      page_name:'index',
+      page_name: 'index',
       user,
     });
   } catch (error) {
@@ -17,25 +17,32 @@ exports.addUser = async (req, res) => {
   }
 };
 
-exports.loginUser = async (req,res) => {
+exports.loginUser = async (req, res) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
-    console.log(email,password);
-  
-    const user = await User.findOne({email},(err,same) => {
-      if(same) {
-        bcrypt.compare(password, user.password, function(err, result){
-          //User Sessions
-          res.status(200).send('You are logged.');
-        })
-        console.log(err);
+    console.log(email, password);
+
+    await User.findOne({ email }).then((user) => {
+      if(user) {
+        bcrypt.compare(password, user.password, function (err, same) {
+          if (same) {       
+            //User Sessions
+           return res.status(200).send('You are logged.');
+          }
+          else{
+            res.status(400).send("Yanlıs Sifre")
+          }
+        });
       }
-    })
+      else {
+        res.status(400).send("Gecersiz email")
+      }
+    });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       status: 'fail',
       error,
     });
   }
-}
+};
