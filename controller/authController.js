@@ -19,16 +19,18 @@ exports.addUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
   try {
+
     const email = req.body.email;
     const password = req.body.password;
-    console.log(email, password);
+    
 
     await User.findOne({ email }).then((user) => {
       if(user) {
         bcrypt.compare(password, user.password, function (err, same) {
           if (same) {       
             //User Sessions
-           return res.status(200).send('You are logged.');
+            req.session.userID = user._id;
+           return res.status(200).redirect('/');
           }
           else{
             res.status(400).send("Yanlıs Sifre")
