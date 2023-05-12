@@ -48,3 +48,18 @@ exports.loginUser = async (req, res) => {
     });
   }
 };
+
+exports.logoutUser = async (req,res) => {
+  try {
+    req.session.destroy((err) =>{
+      console.log(err);
+      res.redirect('/');
+    })
+    console.log("session silindi");
+  } catch (error) {
+    return res.status(400).json({
+      status: 'fail',
+      error,
+    });
+  }
+}

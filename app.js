@@ -3,13 +3,16 @@ const moongose = require('mongoose');
 const bodyParser = require('body-parser');
 const app = express();
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const port = 3000;
 const pageRoute = require('./routes/pageRoute');
 const courseRoute = require('./routes/courseRoute');
 const categoryRoute = require('./routes/categoryRoute');
 const userRoute = require('./routes/userRoute');
 
+//global variables
 global.userID = null;
+
 //Db bağlantısı
 moongose.connect('mongodb://127.0.0.1:27017/smartedu-db');
 
@@ -27,6 +30,7 @@ app.use(
     secret: 'my_keyboard_cat',
     resave: false,
     saveUninitialized: true,
+    store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1:27017/smartedu-db' })
   })
 );
 app.use('*', (req, res, next) => {
