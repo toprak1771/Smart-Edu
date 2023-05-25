@@ -30,7 +30,7 @@ exports.loginUser = async (req, res) => {
           if (same) {       
             //User Sessions
             req.session.userID = user._id;
-           return res.status(200).redirect('/');
+           return res.status(200).redirect('/users/dashboard');
           }
           else{
             res.status(400).send("Yanlıs Sifre")
@@ -62,4 +62,21 @@ exports.logoutUser = async (req,res) => {
       error,
     });
   }
-}
+};
+
+exports.getDashboardPage = async (req, res) => {
+  try {
+    const user = await User.findOne({_id:req.session.userID});
+    console.log(user);
+    res.status(200).render('dashboard', {
+      page_name: 'dashboard',
+      user
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: 'fail',
+      error,
+    });
+  }
+ 
+};
