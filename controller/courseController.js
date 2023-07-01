@@ -46,12 +46,8 @@ exports.getAllCourses = async (req, res) => {
 
 exports.getCourse = async (req, res) => {
   try {
-<<<<<<< HEAD
     const course = await Course.findOne({ slug: req.params.slug });
     const categories = await Category.find();
-=======
-    const course = await Course.findOne({ slug: req.params.slug }).populate('user');
->>>>>>> a17447455bd67a514ec275d75b70a54aaaa63ee6
     res.status(200).render('course', {
       status: 'success',
       course,
