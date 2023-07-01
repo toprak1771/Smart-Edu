@@ -18,6 +18,10 @@ const userSchema = new Schema({
         enum:["student","teacher","admin"],
         default:"student"
     },
+    courses:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Course' 
+    }],
     password:{
         type:String,
         required:true
