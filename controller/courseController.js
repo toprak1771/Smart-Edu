@@ -20,6 +20,8 @@ exports.addCourse = async (req, res) => {
 
 exports.getAllCourses = async (req, res) => {
   try {
+    let search = req.query.search;
+    console.log("search",search);
     let category_slug = req.query.categories;
     const category = await Category.findOne({ slug: category_slug });
     let filter = {};
@@ -27,8 +29,21 @@ exports.getAllCourses = async (req, res) => {
     if (category_slug) {
       filter = { category: category._id };
     }
+    if(search){
+      filter= {title:search};
+    }
+    if(!search && !category_slug){
+      filter.title = "",
+      filter.category = null
+    }
 
-    const courses = await Course.find(filter).sort('-createdDate');
+
+    const courses = await Course.find({
+      $or:[
+        {title: {$regex : '.*' + filter.title + '.*', $options: 'i'}},
+        {category: filter.category}
+      ]
+    }).sort('-createdDate').populate('user');
     const categories = await Category.find();
     
     res.status(200).render('courses', {
@@ -47,9 +62,11 @@ exports.getAllCourses = async (req, res) => {
 exports.getCourse = async (req, res) => {
   try {
     const course = await Course.findOne({ slug: req.params.slug }).populate('user');
+    const categories = await Category.find();
     res.status(200).render('course', {
       status: 'success',
       course,
+      categories,
       page_name: 'course',
     });
   } catch (error) {
