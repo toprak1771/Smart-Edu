@@ -32,7 +32,8 @@ exports.getContactPage = (req, res) => {
 };
 
 exports.sendMail = async (req,res) => {
-  const messageBody = 
+  try {
+    const messageBody = 
   `
     <h1>Message Details</h1>
     name=${req.body.first_name}
@@ -49,14 +50,14 @@ exports.sendMail = async (req,res) => {
     port: 587,
     auth: {
       // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-      user: 'ethereal mail',
-      pass: 'ethereal password'
+      user: 'nasir.goldner0@ethereal.email',
+      pass: 'bHmhsuAGghnSb2Adpk'
     }
   });
 
   let info = await transporter.sendMail({
-    from: '"Fred Foo 👻" <ethereal mail>', // sender address
-    to: "to mail", // list of receivers
+    from: '"Fred Foo 👻" <nasir.goldner0@ethereal.email>', // sender address
+    to: "<topraktuzun17@hotmail.com>", // list of receivers
     subject: "Hello ✔", // Subject line
     html: messageBody, // html body
   });
@@ -64,7 +65,12 @@ exports.sendMail = async (req,res) => {
   console.log("Message sent: %s", info.messageId);
 
   console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-
+  req.flash("Success","Sended mail succesfully.");
   res.status(200).redirect('/contact');
 
+  } catch (error) {
+    req.flash("Error",`Something wrong happened. ${error}`);
+    res.status(400).redirect('/contact');
+  }
+  
 }

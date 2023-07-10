@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+var flash = require('connect-flash');
 const port = 3000;
 const pageRoute = require('./routes/pageRoute');
 const courseRoute = require('./routes/courseRoute');
@@ -35,6 +36,11 @@ app.use(
 );
 app.use('*', (req, res, next) => {
   userID = req.session.userID;
+  next();
+});
+app.use(flash());
+app.use('*',(req, res, next) => {
+  res.locals.flashMessages = req.flash();
   next();
 });
 
