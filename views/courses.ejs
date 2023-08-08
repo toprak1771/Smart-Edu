@@ -13,9 +13,19 @@
 	
     <div id="overviews" class="section wb">
         <div class="container">
+			<% console.log(flashMessages) %>
+					<% if(flashMessages) { %>
+						<% if(flashMessages.Success) { %>
+							<div class="alert alert-success"><%= flashMessages.Success   %></div>
+							<% } %>
+							<% if(flashMessages.Error) { %>
+								<div class="alert alert-danger"><%= flashMessages.Error   %></div>
+								<% } %>
+						<% } %>
             <div class="row"> 
                 <div class="col-lg-9 blog-post-single">
-				            <div class="row">
+					
+					<div class="row">
 				<% for(let i=0;i<courses.length;i++) { %>
 					<div class="col-lg-6 col-md-6 col-12">
 						<div class="course-item mb-5">
