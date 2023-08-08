@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const winston = require('winston');
 var flash = require('connect-flash');
 const port = 3000;
 const pageRoute = require('./routes/pageRoute');
@@ -13,6 +14,22 @@ const userRoute = require('./routes/userRoute');
 
 //global variables
 global.userID = null;
+
+
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  defaultMeta: { service: 'user-service' },
+  transports: [
+    //
+    // - Write all logs with importance level of `error` or less to `error.log`
+    // - Write all logs with importance level of `info` or less to `combined.log`
+    //
+    new winston.transports.Console(),
+    // new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    // new winston.transports.File({ filename: 'combined.log' }),
+  ],
+});
 
 //Db bağlantısı
 moongose.connect('mongodb://127.0.0.1:27017/smartedu-db');
@@ -43,7 +60,14 @@ app.use('*',(req, res, next) => {
   res.locals.flashMessages = req.flash();
   next();
 });
-
+app.use('*',(req,res,next) => {
+  console.log("res:",res);
+  logger.log({
+    level:'info',
+    message: `url:${req.url} method:${req.method} statusCode:${req.statusCode}`
+  });
+  next();
+});
 
 
 app.use('/', pageRoute);

@@ -22,7 +22,7 @@ exports.addCourse = async (req, res) => {
 exports.getAllCourses = async (req, res) => {
   try {
     let search = req.query.search;
-    console.log("search",search);
+    //console.log("search",search);
     let category_slug = req.query.categories;
     const category = await Category.findOne({ slug: category_slug });
     let filter = {};
