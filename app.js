@@ -51,23 +51,27 @@ app.use(
     store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1:27017/smartedu-db' })
   })
 );
+
 app.use('*', (req, res, next) => {
   userID = req.session.userID;
   next();
 });
+
 app.use(flash());
 app.use('*',(req, res, next) => {
   res.locals.flashMessages = req.flash();
   next();
 });
-app.use('*',(req,res,next) => {
-  console.log("res:",res);
-  logger.log({
-    level:'info',
-    message: `url:${req.url} method:${req.method} statusCode:${req.statusCode}`
-  });
-  next();
-});
+
+//log operations with logger library
+// app.use('*',(req,res,next) => {
+//   console.log("res:",res);
+//   logger.log({
+//     level:'info',
+//     message: `url:${req.url} method:${req.method} statusCode:${req.statusCode}`
+//   });
+//   next();
+// });
 
 
 app.use('/', pageRoute);
