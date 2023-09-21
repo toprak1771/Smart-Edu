@@ -6,6 +6,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const winston = require('winston');
 var flash = require('connect-flash');
+var methodOverride = require('method-override')
 const port = 3000;
 const pageRoute = require('./routes/pageRoute');
 const courseRoute = require('./routes/courseRoute');
@@ -39,6 +40,9 @@ app.use(express.static('public'));
 
 //template engine
 app.set('view engine', 'ejs');
+
+//override with POST having ?_method=DELETE
+app.use(methodOverride('_method',{methods:['POST','GET'],}));
 
 //middlewares
 app.use(bodyParser.json()); // for parsing application/json
