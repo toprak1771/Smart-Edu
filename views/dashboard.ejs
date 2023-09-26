@@ -350,6 +350,7 @@
 																	</div>
 																	<div id="overviews" class="section wb">
 																		<div class="container">
+																			<div>Users</div>
 																			<div class="row mt-5">
 																				<table class="table">
 																					<thead>
@@ -380,7 +381,9 @@
 																											%>
 																									</td>
 																									<td>
-																										<li style="list-style: none;"><a class="btn btn-danger rounded-0 text-white"
+																										<li
+																											style="list-style: none;">
+																											<a class="btn btn-danger rounded-0 text-white"
 																												href="/users/<%= users[i]._id %>?_method=DELETE"
 																												onclick="return confirm('Are you sure?')">DELETE</a>
 																										</li>
@@ -395,6 +398,104 @@
 																			</div><!-- end row -->
 																		</div><!-- end container -->
 																	</div><!-- end section -->
+
+																	<div id="overviews" class="section wb">
+																		<div class="container">
+																			<div>Categories</div>
+																			<div class="col-lg-12 text-center ">
+																				<button
+																					class="btn btn-lg btn-warning rounded-0 text-white mt-5"
+																					href="#" data-toggle="modal"
+																					data-target="#addCategory"><span>CREATE
+																						NEW
+																						CATEGORY</span></button>
+																			</div>
+																			<div class="row mt-5">
+																				<table class="table">
+																					<thead>
+																						<tr>
+																							<th scope="col">#</th>
+																							<th scope="col">Categories
+																								Name</th>
+																							<th scope="col">DELETE</th>
+																						</tr>
+																					</thead>
+																					<tbody>
+																						<% if(categories &&
+																							categories.length> 0)
+																							{ %>
+																							<% for(let
+																								i=0;i<categories.length;i++)
+																								{ %>
+																								<tr>
+																									<th scope="row">
+																										<%= categories[i]._id
+																											%>
+																									</th>
+																									<td>
+																										<%= categories[i].title
+																											%>
+																									</td>
+																									<td>
+																										<li
+																											style="list-style: none;">
+																											<a class="btn btn-danger rounded-0 text-white"
+																												href="/category/<%= categories[i]._id %>?_method=DELETE"
+																												onclick="return confirm('Are you sure?')">DELETE</a>
+																										</li>
+																									</td>
+																								</tr>
+																								<% } %>
+																									<% } %>
+																					</tbody>
+																				</table>
+
+
+																			</div><!-- end row -->
+																		</div><!-- end container -->
+																	</div><!-- end section -->
+
+																	<div class="modal fade" id="addCategory" tabindex="-1"
+																role="dialog" aria-labelledby="myModalLabel">
+																<div class="modal-dialog modal-dialog-centered modal-lg"
+																	role="document">
+																	<div class="modal-content">
+																		<div class="modal-body customer-box">
+																			<!-- Tab panes -->
+																			<div class="tab-content">
+																				<div class="tab-pane active" id="Login">
+																					<form method="POST"
+																						action="/category/add"
+																						class="form-horizontal">
+																						<div class="form-group">
+																							<div class="col-sm-12">
+																								<input type="text"
+																									name="title"
+																									class="form-control"
+																									placeholder="Category Name">
+																							</div>
+																						</div>																					
+																						<div class="row">
+																							<div class="col-sm-10">
+																								<button type="submit"
+																									class="btn btn-light btn-radius btn-brd grd1">
+																									Submit
+																								</button>
+																								<button type="submit"
+																									class="btn btn-light btn-radius btn-brd grd1"
+																									data-dismiss="modal"
+																									aria-hidden="true">
+																									Cancel
+																								</button>
+																							</div>
+																						</div>
+																					</form>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
 																	<% } %>
 
 
